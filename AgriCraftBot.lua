@@ -1,5 +1,5 @@
 	-- by isl02
-	--v 1.4.8.8
+	--v 1.4.9
 	local c = require('component')
 	local term = require('term')
 	local fs = require('filesystem')
@@ -18,8 +18,7 @@
 	local arg = {...}
 
 		term.clear()
-		print("AgriCraftBot by isl02")
-		print("Для проекта MCSkill.ru Сервер DraconicTech")
+		print("AgriCraftBot by isl02 \nДля проекта MCSkill.ru Сервер DraconicTech")
 		os.sleep(2)
 			
 
@@ -70,8 +69,7 @@ else
 			{-4,-1,4}}
 
 if not (fs.exists(shell.getWorkingDirectory() .. "/settings.cfg") ) then
-print("Приветствую тебя! Сейчас будет первая настройка, давай разберемся с некоторыми параметрами.")
-print("Выбери путевую точку. Если не видишь её, поставь название или поставь робота поближе.")
+print("Приветствую тебя! Сейчас будет первая настройка, давай разберемся с некоторыми параметрами.\nВыбери путевую точку. Если не видишь её, поставь название или поставь робота поближе.")
 local point = nav.findWaypoints(12)
 	for i = 1, #point do
 		pointName = point[i].label
@@ -155,41 +153,35 @@ function autoGo(xyz) --x увеличивается на side = 1(4) || умен
 	zSteps = getCurPos(3)
 	if xSteps > xyz[1] then 
 		getRightSide(5)
-		while (xSteps ~= xyz[1]) do
+		for i = 1, math.abs(xyz[1] - xSteps) do
 			r.forward()
-			xSteps = getCurPos(1)
 		end
 	elseif xSteps < xyz[1] then
 		getRightSide(4)
-		while (xSteps ~= xyz[1]) do
+		for i = 1, math.abs(xyz[1] - xSteps) do
 			r.forward()
-			xSteps = getCurPos(1)
 		end
 	end
 	
 	if ySteps < xyz[2] then 
-		while (ySteps ~= xyz[2]) do
+		for i = 1, math.abs(xyz[2] - ySteps) do
 			r.down()
-			ySteps = getCurPos(2)
 		end
 	elseif ySteps > xyz[2] then
-		while (ySteps ~= xyz[2]) do
+		for i = 1, math.abs(xyz[2] - ySteps) do
 			r.up()
-			ySteps = getCurPos(2)
 		end
 	end
 
 	if zSteps > xyz[3] then
 		getRightSide(3)
-		while (zSteps ~= xyz[3]) do
+		for i = 1, math.abs(xyz[3] - zSteps) do
 			r.forward()
-			zSteps = getCurPos(3)
 		end
 	elseif zSteps < xyz[3] then 
 		getRightSide(2)
-		while (zSteps ~= xyz[3]) do
+		for i = 1, math.abs(xyz[3] - zSteps) do
 			r.forward()
-			zSteps = getCurPos(3)
 		end
 	end	
 end
@@ -200,31 +192,27 @@ function autoGoUse(xyz) --x увеличивается на side = 1(4) || ум�
 	zSteps = getCurPos(3)
 	if xSteps > xyz[1] then 
 		getRightSide(5)
-		while (xSteps ~= xyz[1]) do
+		for i = 1, math.abs(xyz[1] - xSteps) do
 			r.useDown()
 			r.suckDown()
 			r.forward()
-			xSteps = getCurPos(1)
 		end
 	elseif xSteps < xyz[1] then
 		getRightSide(4)
-		while (xSteps ~= xyz[1]) do
+		for i = 1, math.abs(xyz[1] - xSteps) do
 			r.useDown()
 			r.suckDown()
 			r.forward()
-			xSteps = getCurPos(1)
 		end
-		r.useDown()
 	end
-	r.useDown()
 	
 	if ySteps < xyz[2] then 
-		while (ySteps ~= xyz[2]) do
+		for i = 1, math.abs(xyz[2] - ySteps) do
 			r.down()
 			ySteps = getCurPos(2)
 		end
 	elseif ySteps > xyz[2] then
-		while (ySteps ~= xyz[2]) do
+		for i = 1, math.abs(xyz[2] - ySteps) do
 			r.up()
 			ySteps = getCurPos(2)
 		end
@@ -232,23 +220,21 @@ function autoGoUse(xyz) --x увеличивается на side = 1(4) || ум�
 
 	if zSteps > xyz[3] then
 		getRightSide(3)
-		while (zSteps ~= xyz[3]) do
+		for i = 1, math.abs(xyz[3] - zSteps) do
 			r.useDown()
 			r.suckDown()
 			r.forward()
-			zSteps = getCurPos(3)
 		end
 	elseif zSteps < xyz[3] then 
 		getRightSide(2)
-		while (zSteps ~= xyz[3]) do
+		for i = 1, math.abs(xyz[3] - zSteps) do
 			r.useDown()
 			r.suckDown()
 			r.forward()
-			zSteps = getCurPos(3)
 		end
-		r.useDown()
 	end
 	r.useDown()
+	r.suckDown()
 end
 		
 		
@@ -281,7 +267,7 @@ end
 function checkBattery()
 	local compEnergy = comp.energy()
 	if maxEnergy/10 > compEnergy then startPosition() 
-		while compEnergy ~= maxEnergy-500 do
+		while compEnergy < maxEnergy-500 do
 			compEnergy = comp.energy()
 			end
 		end
